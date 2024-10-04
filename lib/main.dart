@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 import 'package:iut_eats/pages/food/popular_food_detail.dart';
 import 'package:iut_eats/pages/food/recomended_food_detail.dart';
 import 'package:iut_eats/pages/home/main_food_page.dart';
+import 'helper/dependencies.dart' as dep;
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dep.init();
   runApp(const MyApp());
 }
 
