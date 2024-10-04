@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
+import 'package:iut_eats/utils/app_constants.dart';
 
 class ApiClient extends GetConnect implements GetxService{
 
-  late String token = '';
+  late String token = AppConstants.TOKEN;
   final String appBaseUrl;
   late Map<String , String> _mainHeaders;
 
