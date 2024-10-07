@@ -6,6 +6,7 @@ import 'package:iut_eats/pages/food/popular_food_detail.dart';
 import 'package:iut_eats/pages/food/recomended_food_detail.dart';
 import 'package:iut_eats/pages/home/food_page_body.dart';
 import 'package:iut_eats/pages/home/main_food_page.dart';
+import 'package:iut_eats/routes/route_helper.dart';
 import 'controllers/popular_product_controller.dart';
 import 'helper/dependencies.dart' as dep;
 void main() {
@@ -26,11 +27,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'IUT Eats',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: MainFoodPage(),
+      initialRoute: RouteHelper.getInitial(),
+      getPages: RouteHelper.routes,
     );
   }
 }

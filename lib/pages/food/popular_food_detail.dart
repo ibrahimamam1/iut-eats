@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iut_eats/controllers/popular_product_controller.dart';
+import 'package:iut_eats/pages/home/main_food_page.dart';
+import 'package:iut_eats/utils/app_constants.dart';
 import 'package:iut_eats/utils/dimensions.dart';
 import 'package:iut_eats/widgets/app_icon.dart';
 
@@ -12,10 +15,13 @@ import '../../widgets/icon_and_test_widget.dart';
 import '../../widgets/small_text.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail ({Key? key}) : super(key: key);
+  int pageId;
+  PopularFoodDetail ({Key? key , required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<PopularProductController>().popularProductList[pageId];
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -30,8 +36,8 @@ class PopularFoodDetail extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(
-                      "assets/image/chinese_powrn_fry.jpeg"
+                    image: NetworkImage(
+                      AppConstants.BASE_URL+AppConstants.UPLOAD_URL+product.img!
                     ),
                   ),
                 ),
@@ -45,7 +51,11 @@ class PopularFoodDetail extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppIcon(icon: Icons.arrow_back_ios),
+                  GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: AppIcon(icon: Icons.arrow_back_ios)),
                   AppIcon(icon: Icons.shopping_cart_outlined),
                 ],
               ),
@@ -71,11 +81,11 @@ class PopularFoodDetail extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const AppColumn(text: "Chinese Side",),
+                      AppColumn(text: product.name!),
                       SizedBox(height: Dimensions.height20),
                       BigText(text: "Introduce"),
                       SizedBox(height: Dimensions.height20,),
-                      Expanded(child: SingleChildScrollView(child: ExpandableTextWidget(text: "Chinese prawn fry is a quick and flavorful dish, featuring succulent prawns stir-fried with aromatic ingredients like garlic, ginger, and scallions. The prawns are typically marinated in a mixture of soy sauce, rice wine, and sesame oil, giving them a savory, umami flavor. Often, vegetables like bell peppers or snow peas are added for extra texture and color. The dish is cooked over high heat in a wok, ensuring that the prawns stay tender while developing a slightly crispy exterior. It's a popular choice for a light, yet satisfying meal, often served with steamed rice or noodles.",))),
+                      Expanded(child: SingleChildScrollView(child: ExpandableTextWidget(text: product.description!))),
                     ],
                   ),
                 ),
@@ -116,7 +126,7 @@ class PopularFoodDetail extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
-              child: BigText(text: "\$10 | Add to Cart", color: Colors.white,),
+              child: BigText(text: "\$ ${product.price!} | Add to Cart", color: Colors.white,),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius20),
                 color: AppColors.mainColor,
