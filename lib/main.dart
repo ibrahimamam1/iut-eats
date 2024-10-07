@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:iut_eats/controllers/recommended_controller.dart';
 import 'package:iut_eats/pages/food/popular_food_detail.dart';
 import 'package:iut_eats/pages/food/recomended_food_detail.dart';
 import 'package:iut_eats/pages/home/food_page_body.dart';
@@ -20,6 +21,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.find<PopularProductController>().getPopularProductList();
+    Get.find<RecommendedProductController>().getRecommendedProductList();
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'IUT Eats',
