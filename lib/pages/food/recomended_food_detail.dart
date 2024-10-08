@@ -1,6 +1,8 @@
  import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iut_eats/controllers/recommended_controller.dart';
+import 'package:iut_eats/utils/app_constants.dart';
 import 'package:iut_eats/widgets/app_icon.dart';
 import 'package:iut_eats/widgets/expandable_text_widget.dart';
 
@@ -9,20 +11,27 @@ import '../../utils/dimensions.dart';
 import '../../widgets/big_text.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
-   const RecommendedFoodDetail({super.key});
+  final int pageId;
+   const RecommendedFoodDetail({super.key , required this.pageId});
  
    @override
    Widget build(BuildContext context) {
+     var product = Get.find<RecommendedProductController>().recommendedProductList[pageId];
      return Scaffold(
        backgroundColor: Colors.white,
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
+              automaticallyImplyLeading: false,
               toolbarHeight: 70,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppIcon(icon: Icons.clear),
+                  GestureDetector(
+                      onTap: (){
+                        Get.back();
+                      },
+                      child: AppIcon(icon: Icons.clear)),
                   AppIcon(icon: Icons.shopping_cart_outlined),
                 ],
               ),
@@ -30,7 +39,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                 preferredSize: Size.fromHeight(20),
                 child: Container(
                   child: Center(
-                    child : BigText(size : Dimensions.font26, text : "Sliver App bar")
+                    child : BigText(size : Dimensions.font26, text : product.name!)
                   ),
                   width: double.maxFinite,
                   padding: EdgeInsets.only(top: 5 , bottom: 10),
@@ -47,8 +56,8 @@ class RecommendedFoodDetail extends StatelessWidget {
               backgroundColor: AppColors.yellowColor,
               expandedHeight: 300,
               flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(
-                  "assets/image/chinese food.jpeg",
+                background: Image.network(
+                  AppConstants.BASE_URL+AppConstants.UPLOAD_URL+product.img!,
                   width: double.maxFinite,
                   fit: BoxFit.cover,
                 ),
@@ -58,9 +67,7 @@ class RecommendedFoodDetail extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    child: ExpandableTextWidget(
-                      text : "Chinese prawn fry is a quick and flavorful dish, featuring succulent prawns stir-fried with aromatic ingredients like garlic, ginger, and scallions. The prawns are typically marinated in a mixture of soy sauce, rice wine, and sesame oil, giving them a savory, umami flavor. Often, vegetables like bell peppers or snow peas are added for extra texture and color. The dish is cooked over high heat in a wok, ensuring that the prawns stay tender while developing a slightly crispy exterior. It's a popular choice for a light, yet satisfying meal, often served with steamed rice or noodles.Chinese prawn fry is a quick and flavorful dish, featuring succulent prawns stir-fried with aromatic ingredients like garlic, ginger, and scallions. The prawns are typically marinated in a mixture of soy sauce, rice wine, and sesame oil, giving them a savory, umami flavor. Often, vegetables like bell peppers or snow peas are added for extra texture and color. The dish is cooked over high heat in a wok, ensuring that the prawns stay tender while developing a slightly crispy exterior. It's a popular choice for a light, yet satisfying meal, often served with steamed rice or noodles.Chinese prawn fry is a quick and flavorful dish, featuring succulent prawns stir-fried with aromatic ingredients like garlic, ginger, and scallions. The prawns are typically marinated in a mixture of soy sauce, rice wine, and sesame oil, giving them a savory, umami flavor. Often, vegetables like bell peppers or snow peas are added for extra texture and color. The dish is cooked over high heat in a wok, ensuring that the prawns stay tender while developing a slightly crispy exterior. It's a popular choice for a light, yet satisfying meal, often served with steamed rice or noodles."
-                      ),
+                    child: ExpandableTextWidget(text : product.description!),
                     margin: EdgeInsets.only(left: Dimensions.width20 , right: Dimensions.width20),
                     ),
                 ],
@@ -88,7 +95,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                    iconSize : Dimensions.iconSize24,
                ),
                
-               BigText(text: "\$12.88 " + " X " + " 0 " , color: AppColors.mainBlackColor, size: Dimensions.font26,),
+               BigText(text: "\$ ${product.price!} X  0 " , color: AppColors.mainBlackColor, size: Dimensions.font26,),
                
                AppIcon(
                  iconColor: Colors.white ,
@@ -122,7 +129,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                  ),
                  Container(
                    padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
-                   child: BigText(text: "\$10 | Add to Cart", color: Colors.white,),
+                   child: BigText(text: "\$ ${product.price!} | Add to Cart", color: Colors.white,),
                    decoration: BoxDecoration(
                      borderRadius: BorderRadius.circular(Dimensions.radius20),
                      color: AppColors.mainColor,
