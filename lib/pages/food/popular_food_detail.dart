@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iut_eats/controllers/cart_controller.dart';
 import 'package:iut_eats/controllers/popular_product_controller.dart';
+import 'package:iut_eats/pages/cart/cart_page.dart';
 import 'package:iut_eats/pages/home/main_food_page.dart';
 import 'package:iut_eats/utils/app_constants.dart';
 import 'package:iut_eats/utils/dimensions.dart';
@@ -64,7 +65,11 @@ class PopularFoodDetail extends StatelessWidget {
                   GetBuilder<PopularProductController>(builder: (controller) {
                     return Stack(
                       children: [
-                        AppIcon(icon: Icons.shopping_cart_outlined),
+                        GestureDetector(
+                            onTap: (){
+                              Get.to(()=>Cartpage());
+                            },
+                            child: AppIcon(icon: Icons.shopping_cart_outlined)),
 
                         //background blue container
                         Get.find<PopularProductController>().totalItems>0?
@@ -163,16 +168,17 @@ class PopularFoodDetail extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
-                child: GestureDetector(
-                  onTap: (){
-                    popularProduct.addItem(product);
+              GestureDetector(
+                onTap: (){
+                popularProduct.addItem(product);
                   },
-                    child: BigText(text: "\$ ${product.price!} | Add to Cart", color: Colors.white,)),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.radius20),
-                  color: AppColors.mainColor,
+                child: Container(
+                  padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
+                  child: BigText(text: "\$ ${product.price!} | Add to Cart", color: Colors.white,),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    color: AppColors.mainColor,
+                  ),
                 ),
               ),
             ],
