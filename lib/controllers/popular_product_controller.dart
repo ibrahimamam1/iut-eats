@@ -4,6 +4,7 @@ import 'package:iut_eats/controllers/cart_controller.dart';
 import 'package:iut_eats/data/repository/popular_product_repo.dart';
 import 'package:iut_eats/models/product_model.dart';
 
+import '../models/cart_model.dart';
 import '../utils/colors.dart';
 
 class PopularProductController extends GetxController {
@@ -53,6 +54,10 @@ class PopularProductController extends GetxController {
           backgroundColor: AppColors.mainColor,
           colorText: Colors.white
       );
+      if(_inCartItems>0){
+        _quantity = _inCartItems;
+        return _quantity;
+      }
       return 0;
     }
     else if(_inCartItems + quantity > 20) {
@@ -90,4 +95,8 @@ class PopularProductController extends GetxController {
   }
 
   int get totalItems => _cart.totalItems;
+
+  List<CartModel> get getItems{
+    return _cart.getItems;
+  }
 }
