@@ -5,6 +5,7 @@ import 'package:iut_eats/controllers/cart_controller.dart';
 import 'package:iut_eats/controllers/popular_product_controller.dart';
 import 'package:iut_eats/controllers/recommended_controller.dart';
 import 'package:iut_eats/pages/cart/cart_page.dart';
+import 'package:iut_eats/routes/route_helper.dart';
 import 'package:iut_eats/utils/app_constants.dart';
 import 'package:iut_eats/widgets/app_icon.dart';
 import 'package:iut_eats/widgets/expandable_text_widget.dart';
@@ -42,7 +43,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                       children: [
                         GestureDetector(
                             onTap: (){
-                              Get.to( ()=> Cartpage());
+                              Get.toNamed(RouteHelper.getCartPage());
                             },
                             child: AppIcon(icon: Icons.shopping_cart_outlined)),
 

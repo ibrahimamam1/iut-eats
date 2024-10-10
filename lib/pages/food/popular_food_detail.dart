@@ -9,6 +9,7 @@ import 'package:iut_eats/utils/app_constants.dart';
 import 'package:iut_eats/utils/dimensions.dart';
 import 'package:iut_eats/widgets/app_icon.dart';
 
+import '../../routes/route_helper.dart';
 import '../../utils/colors.dart';
 import '../../widgets/app_column.dart';
 import '../../widgets/big_text.dart';
@@ -67,7 +68,7 @@ class PopularFoodDetail extends StatelessWidget {
                       children: [
                         GestureDetector(
                             onTap: (){
-                              Get.to(()=>Cartpage());
+                              Get.toNamed(RouteHelper.getCartPage());
                             },
                             child: AppIcon(icon: Icons.shopping_cart_outlined)),
 

@@ -8,6 +8,7 @@ import 'package:iut_eats/widgets/app_icon.dart';
 import 'package:iut_eats/widgets/big_text.dart';
 import 'package:iut_eats/widgets/small_text.dart';
 
+import '../../routes/route_helper.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
 
@@ -35,7 +36,7 @@ class Cartpage extends StatelessWidget{
                     SizedBox(width: Dimensions.width20*5,),
                     GestureDetector(
                       onTap: (){
-                        Get.to(() => MainFoodPage());
+                        Get.toNamed(RouteHelper.getInitial());
                       },
                       child: AppIcon(
                         icon: Icons.home_outlined,
