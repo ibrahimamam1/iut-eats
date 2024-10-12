@@ -20,37 +20,41 @@ class CartController extends GetxController{
   void addItem(ProductModel product , int quantity) {
 
     var totalQuantity=0;
-    
+
     if(_items.containsKey(product.id)) {
       _items.update(product.id!, (value) {
         totalQuantity = value.quantity!+quantity;
         return CartModel(
-            id: value.id,
-            name : value.name,
-            price : value.price,
-            img : value.img,
-            quantity : value.quantity! + quantity,
-            isExist : true,
-            time: DateTime.now().toString()
+          id: value.id,
+          name : value.name,
+          price : value.price,
+          img : value.img,
+          quantity : value.quantity! + quantity,
+          isExist : true,
+          time: DateTime.now().toString(),
+          product: product,
+
         );
 
-
-        if(totalQuantity <= 0) {
-          _items.remove(product.id);
-        }
       });
+      if(totalQuantity <= 0) {
+        _items.remove(product.id);
+      }
+
+
     }else {
 
       if(quantity > 0){
         _items.putIfAbsent(product.id!, () {
           return CartModel(
-              id: product.id,
-              name : product.name,
-              price : product.price,
-              img : product.img,
-              quantity : quantity,
-              isExist : true,
-              time: DateTime.now().toString()
+            id: product.id,
+            name : product.name,
+            price : product.price,
+            img : product.img,
+            quantity : quantity,
+            isExist : true,
+            time: DateTime.now().toString(),
+            product: product,
           );
         });
       } else {
@@ -63,6 +67,7 @@ class CartController extends GetxController{
       }
 
     }
+    update();
 
   }
 
@@ -90,7 +95,7 @@ class CartController extends GetxController{
   int get totalItems {
     var totalQuantity = 0;
     _items.forEach((key , value) {
-       totalQuantity += value.quantity!;
+      totalQuantity += value.quantity!;
     });
     return totalQuantity;
   }
@@ -100,4 +105,12 @@ class CartController extends GetxController{
       return e.value;
     }).toList();
   }
+
+   int get totalAmount{
+    var total=0;
+            _items.forEach((key, value){
+              total += value.quantity!*value.price!;
+            });
+    return total;
+}
 }
