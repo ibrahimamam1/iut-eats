@@ -28,7 +28,7 @@ class CartRepo{
      carts =  sharedPreferences.getStringList(AppConstants.CART_LIST)!;
     }
 
-    carts.forEach( (element) =>CartModel.fromJson(jsonDecode(element)));
+    carts.forEach( (element) =>cartList.add(CartModel.fromJson(jsonDecode(element))));
     return cartList;
   }
 }
