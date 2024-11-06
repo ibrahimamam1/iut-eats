@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:iut_eats/models/cart_model.dart';
+import 'package:iut_eats/routes/route_helper.dart';
 import 'package:iut_eats/utils/app_constants.dart';
 import 'package:iut_eats/utils/dimensions.dart';
 import 'package:iut_eats/widgets/app_icon.dart';
@@ -27,11 +31,15 @@ class CartHistory extends StatelessWidget {
       }
     }
     print(cartItemsPerOrder[0]);
-    List<int>cartOrderTimeToList(){
+    List<int>cartItemPerOrderToList(){
       return cartItemsPerOrder.entries.map( (e)=>e.value ).toList();
     }
+    List<String>cartOrderTimeToList(){
+      return cartItemsPerOrder.entries.map( (e)=>e.key ).toList();
+    }
 
-    List<int> orderTimes = cartOrderTimeToList();
+    List<int> itemsPerOrder = cartItemPerOrderToList();
+    List<String> orderTimes = cartOrderTimeToList();
     print(orderTimes);
     var listCounter = 0;
     return Scaffold(
@@ -85,7 +93,7 @@ class CartHistory extends StatelessWidget {
                                     Wrap(
                                       direction: Axis.horizontal,
                                       children:
-                                      List.generate(orderTimes[i], (index){
+                                      List.generate(itemsPerOrder[i], (index){
                                         if(listCounter<getCartHistoryList.length)listCounter++;
                                         return index <=2? Container(
                                           height: Dimensions.height20*4,
@@ -111,15 +119,31 @@ class CartHistory extends StatelessWidget {
                                         crossAxisAlignment: CrossAxisAlignment.end,
                                         children: [
                                           SmallText(text: "Total" , color: AppColors.titleColor,),
-                                          BigText(text: orderTimes[i].toString()+"Items" , color: AppColors.titleColor,),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.width10/2),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(Dimensions.radius15/3),
-                                              border: Border.all(width: 1, color: AppColors.mainColor)
+                                          BigText(text: itemsPerOrder[i].toString()+"Items" , color: AppColors.titleColor,),
+                                          GestureDetector(
+                                            onTap: (){
+                                                Map<int, CartModel>moreItems ={};
+                                                for(int j=0; j<getCartHistoryList.length; j++){
+                                                  if(getCartHistoryList[j].time == orderTimes[i]){
+                                                    moreItems.putIfAbsent(getCartHistoryList[j].id!,
+                                                            () => CartModel.fromJson(jsonDecode(jsonEncode(getCartHistoryList[j])))
+                                                    );
+                                                  }
+                                                }
+                                                Get.find<CartController>().setItems = moreItems;
+                                                Get.find<CartController>().addToCartList();
+                                                Get.toNamed(RouteHelper.getCartPage());
+
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.width10/2),
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(Dimensions.radius15/3),
+                                                  border: Border.all(width: 1, color: AppColors.mainColor)
+                                              ),
+                                              child: SmallText(text: "One More", color: AppColors.mainColor,),
                                             ),
-                                            child: SmallText(text: "One More", color: AppColors.mainColor,),
-                                          )
+                                          ),
                                         ],
                                       ),
                                     ),
