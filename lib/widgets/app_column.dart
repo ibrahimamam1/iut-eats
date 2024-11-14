@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iut_eats/widgets/small_text.dart';
 
@@ -9,7 +8,7 @@ import 'icon_and_test_widget.dart';
 
 class AppColumn extends StatelessWidget {
   final String text;
-  const AppColumn({Key? key, required this.text}) : super(key: key);
+  const AppColumn({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +21,19 @@ class AppColumn extends StatelessWidget {
         Row(
           children: [
             Wrap(
-              children: List.generate(5, (index) {return Icon(Icons.star, color: AppColors.mainColor, size: 15);}),
+              children: List.generate(5, (index) {return const Icon(Icons.star, color: AppColors.mainColor, size: 15);}),
             ),
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
             SmallText(text: "4.5"),
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
             SmallText(text: "1287"),
-            SizedBox(width: 10,),
+            const SizedBox(width: 10,),
             SmallText(text: "comments"),
           ],
         ),
         SizedBox(height: Dimensions.height20),
         // time and distance
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconAndTestWidget(icon: Icons.circle_sharp,

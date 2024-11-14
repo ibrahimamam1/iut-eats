@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:iut_eats/data/repository/popular_product_repo.dart';
 import 'package:iut_eats/models/product_model.dart';
 
 import '../data/repository/recommended_product_repo.dart';
