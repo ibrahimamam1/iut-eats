@@ -6,10 +6,10 @@ class Product {
   List<ProductModel> get products => _products;
 
   Product({required totalSize, required typeId, required offset, required products}){
-    this._totalSize = totalSize;
-    this._typeId = typeId;
-    this._offset = offset;
-    this._products = products;
+    _totalSize = totalSize;
+    _typeId = typeId;
+    _offset = offset;
+    _products = products;
   }
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -25,14 +25,12 @@ class Product {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total_size'] = this._totalSize;
-    data['type_id'] = this._typeId;
-    data['offset'] = this._offset;
-    if (this.products != null) {
-      data['products'] = this.products!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total_size'] = _totalSize;
+    data['type_id'] = _typeId;
+    data['offset'] = _offset;
+    data['products'] = products.map((v) => v.toJson()).toList();
+      return data;
   }
 }
 
@@ -75,16 +73,16 @@ class ProductModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "id": this.id,
-      "name": this.name,
-      "description": this.description,
-      "price": this.price,
-      "stars": this.stars,
-      "img": this.img,
-      "location": this.location,
-      "created_at": this.createdAt,
-      "updated_at": this.updatedAt,
-      "type_id": this.typeId
+      "id": id,
+      "name": name,
+      "description": description,
+      "price": price,
+      "stars": stars,
+      "img": img,
+      "location": location,
+      "created_at": createdAt,
+      "updated_at": updatedAt,
+      "type_id": typeId
     };
   }
 }

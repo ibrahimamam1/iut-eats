@@ -3,7 +3,6 @@ import 'package:iut_eats/base/success_page.dart';
 import 'package:iut_eats/pages/cart/cart_page.dart';
 import 'package:iut_eats/pages/food/popular_food_detail.dart';
 import 'package:iut_eats/pages/food/recomended_food_detail.dart';
-import 'package:iut_eats/pages/home/main_food_page.dart';
 import 'package:iut_eats/pages/splash/splash_page.dart';
 
 import '../pages/home/home_page.dart';
@@ -16,15 +15,15 @@ class RouteHelper{
   static const String cartPage = "/cart-page";
   static const String successPage = "/success-page";
 
-  static String getSplashPage()=>'$splashPage';
-  static String getInitial() => '$initial';
+  static String getSplashPage()=>splashPage;
+  static String getInitial() => initial;
   static String getPopularFood(int pageId, String page) => '$popularFood?pageId=$pageId&page=$page';
   static String getRecommendedFood(int pageId, String page) => '$recommendedFood?pageId=$pageId&page=$page';
-  static String getCartPage()=>'$cartPage';
-  static String getSuccessPage()=>'$successPage';
+  static String getCartPage()=>cartPage;
+  static String getSuccessPage()=>successPage;
   static List<GetPage> routes = [
-    GetPage(name:splashPage, page: ()=> SplashScreen()),
-    GetPage(name: initial, page:()=> HomePage()),
+    GetPage(name:splashPage, page: ()=> const SplashScreen()),
+    GetPage(name: initial, page:()=> const HomePage()),
     GetPage(
       name:popularFood ,
       page: (){
@@ -44,11 +43,11 @@ class RouteHelper{
         transition: Transition.fadeIn
     ),
     GetPage(name: cartPage, page: (){
-      return Cartpage();
+      return const Cartpage();
     },
     transition: Transition.fadeIn),
     GetPage(name: successPage, page: (){
-      return SuccessPage();
+      return const SuccessPage();
     })
   ];
 }

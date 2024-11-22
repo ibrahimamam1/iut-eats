@@ -1,10 +1,8 @@
- import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iut_eats/controllers/cart_controller.dart';
 import 'package:iut_eats/controllers/popular_product_controller.dart';
 import 'package:iut_eats/controllers/recommended_controller.dart';
-import 'package:iut_eats/pages/cart/cart_page.dart';
 import 'package:iut_eats/routes/route_helper.dart';
 import 'package:iut_eats/utils/app_constants.dart';
 import 'package:iut_eats/widgets/app_icon.dart';
@@ -17,7 +15,7 @@ import '../../widgets/big_text.dart';
 class RecommendedFoodDetail extends StatelessWidget {
   final int pageId;
   final String page;
-   const RecommendedFoodDetail({Key? key , required this.pageId, required this.page}) : super(key: key);
+   const RecommendedFoodDetail({super.key , required this.pageId, required this.page});
  
    @override
    Widget build(BuildContext context) {
@@ -41,7 +39,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                           Get.toNamed(RouteHelper.getInitial());
                         }
                       },
-                      child: AppIcon(icon: Icons.clear)),
+                      child: const AppIcon(icon: Icons.clear)),
                   //AppIcon(icon: Icons.shopping_cart_outlined),
                   GetBuilder<PopularProductController>(builder: (controller) {
                     return Stack(
@@ -50,11 +48,11 @@ class RecommendedFoodDetail extends StatelessWidget {
                             onTap: (){
                               Get.toNamed(RouteHelper.getCartPage());
                             },
-                            child: AppIcon(icon: Icons.shopping_cart_outlined)),
+                            child: const AppIcon(icon: Icons.shopping_cart_outlined)),
 
                         //background blue container
                         Get.find<PopularProductController>().totalItems>0?
-                        Positioned(
+                        const Positioned(
                             right:0,
                             top:0,
                             child: AppIcon(icon: Icons.circle , size:20 , iconColor:Colors.transparent , backgroundColor:AppColors.mainColor)):
@@ -77,19 +75,19 @@ class RecommendedFoodDetail extends StatelessWidget {
                 ],
               ),
               bottom: PreferredSize(
-                preferredSize: Size.fromHeight(20),
+                preferredSize: const Size.fromHeight(20),
                 child: Container(
-                  child: Center(
-                    child : BigText(size : Dimensions.font26, text : product.name!)
-                  ),
                   width: double.maxFinite,
-                  padding: EdgeInsets.only(top: 5 , bottom: 10),
+                  padding: const EdgeInsets.only(top: 5 , bottom: 10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft:  Radius.circular(Dimensions.radius20),
                       topRight: Radius.circular(Dimensions.radius20)
                     )
+                  ),
+                  child: Center(
+                    child : BigText(size : Dimensions.font26, text : product.name!)
                   ),
                 ),
               ),
@@ -108,8 +106,8 @@ class RecommendedFoodDetail extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    child: ExpandableTextWidget(text : product.description!),
                     margin: EdgeInsets.only(left: Dimensions.width20 , right: Dimensions.width20),
+                    child: ExpandableTextWidget(text : product.description!),
                     ),
                 ],
               ),
@@ -178,7 +176,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                        borderRadius: BorderRadius.circular(Dimensions.radius20),
                        color: Colors.white,
                      ),
-                     child: Icon(Icons.favorite , color: AppColors.mainColor)
+                     child: const Icon(Icons.favorite , color: AppColors.mainColor)
                    ),
                    GestureDetector(
                      onTap: (){
@@ -186,11 +184,11 @@ class RecommendedFoodDetail extends StatelessWidget {
                      },
                      child: Container(
                        padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
-                       child: BigText(text: "\$ ${product.price!} | Add to Cart", color: Colors.white,),
                        decoration: BoxDecoration(
                          borderRadius: BorderRadius.circular(Dimensions.radius20),
                          color: AppColors.mainColor,
                        ),
+                       child: BigText(text: "\$ ${product.price!} | Add to Cart", color: Colors.white,),
                      ),
                    ),
                  ],
