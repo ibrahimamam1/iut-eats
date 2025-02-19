@@ -10,15 +10,18 @@ import 'package:iut_eats/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../controllers/recommended_controller.dart';
+import '../controllers/user_controller.dart';
 import '../data/repository/recommended_product_repo.dart';
+import '../data/repository/user_repo.dart';
 
 Future<void>init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   Get.lazyPut( () => sharedPreferences);
 
   //api client
-  Get.lazyPut( ()=> ApiClient(appBaseUrl: AppConstants.BASE_URL));
+  Get.lazyPut( ()=> ApiClient(appBaseUrl: AppConstants.BASE_URL, sharedPreferences: Get.find()));
   Get.lazyPut(() => AuthRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
+  Get.lazyPut(() => UserRepo(apiClient: Get.find()));
 
   //repositories
   Get.lazyPut(() => PopularProductRepo(apiClient: Get.find()));
@@ -27,6 +30,7 @@ Future<void>init() async {
 
   //controllers
   Get.lazyPut(() => AuthController(authRepo: Get.find()));
+  Get.lazyPut(() => UserController(userRepo: Get.find()));
   Get.lazyPut(() => PopularProductController(popularProductRepo: Get.find()));
   Get.lazyPut(() => RecommendedProductController(recommendedProductRepo: Get.find()));
   Get.lazyPut(() => CartController(cartRepo: Get.find()));
