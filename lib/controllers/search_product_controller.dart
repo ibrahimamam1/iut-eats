@@ -4,28 +4,30 @@ import 'package:iut_eats/controllers/recommended_controller.dart';
 import 'package:iut_eats/models/product_model.dart';
 
 import '../data/repository/recommended_product_repo.dart';
+import '../data/repository/search_product_repo.dart';
 
 class SearchProductController extends GetxController {
 
-  SearchProductController();
-  List<dynamic> _recommendedProductList= Get.find<RecommendedProductController>().recommendedProductList;
-  List<dynamic> _popularProductList= Get.find<PopularProductController>().popularProductList;
-  List<dynamic> searchProductList=[];
+  final SearchProductRepo searchProductRepo;
+
+  SearchProductController({required this.searchProductRepo});
+  List<dynamic> _searchProductList=[];
+  List<dynamic> get searchProductList => _searchProductList;
 
   bool _isLoaded = false;
   bool get isLoaded => _isLoaded;
-  void getSearchProductList(String target){
+  Future<void> getSearchProductList (String target) async {
 
-    for(int i=0; i<_recommendedProductList.length; i++){
-      print(_recommendedProductList[i]);
+    Response response = await searchProductRepo.getSearchProductList(target);
+    if(response.statusCode == 200) {
+      print("got products");
+      _searchProductList=[];
+      _searchProductList.addAll(Product.fromJson(response.body).products );
+      print(_searchProductList);
+      _isLoaded = true;
+      update();
+    } else {
+
     }
-
-    for(int i=0; i<_popularProductList.length; i++){
-
-    }
-
-    //TODO : Set value of search Container
-
-    //Todo : Pass it to Searcg Result Screen
-  }
+}
 }

@@ -143,7 +143,7 @@ class AccountPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(Dimensions.radius20),
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage("assets/image/signinandcontinue.png"))
+                      image: AssetImage(""))
               ),
             ),
             GestureDetector(

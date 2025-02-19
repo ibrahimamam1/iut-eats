@@ -23,10 +23,7 @@ class FoodSearchResultPage extends StatefulWidget {
 }
 
 class _FoodSearchResultPageState extends State<FoodSearchResultPage> {
-  Future<void>_loadResource() async {
-    await Get.find<PopularProductController>().getPopularProductList();
-    await Get.find<RecommendedProductController>().getRecommendedProductList();
-  }
+
   @override
   Widget build(BuildContext context) {
     return Column(

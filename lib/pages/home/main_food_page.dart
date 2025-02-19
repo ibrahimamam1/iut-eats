@@ -10,6 +10,7 @@ import 'package:iut_eats/widgets/small_text.dart';
 
 import '../../controllers/popular_product_controller.dart';
 import '../../controllers/recommended_controller.dart';
+import '../../controllers/search_product_controller.dart';
 import '../../utils/colors.dart';
 import 'food_page_body.dart';
 
@@ -68,11 +69,12 @@ class _MainFoodPageState extends State<MainFoodPage> {
   }
 }
 
-void _performSearch(String searchTerm) {
+Future<void> _performSearch (String searchTerm) async{
 
   //option 1 : search from the already loaded arrays, save previous value in arrays and replace them with only matching items, if user goes back reload previously saved values in array
 
   //option 2 : get only matching items from database into arrays, if user goes back reload all items from database back into array
   print("yolo???");
+  await Get.find<SearchProductController>().getSearchProductList(searchTerm);
   Get.toNamed(RouteHelper.getSearchResult());
 }
