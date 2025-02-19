@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:iut_eats/base/search_container.dart';
+import 'package:iut_eats/pages/home/food_search_result.dart';
+import 'package:iut_eats/routes/route_helper.dart';
 import 'package:iut_eats/utils/dimensions.dart';
 import 'package:iut_eats/widgets/big_text.dart';
 import 'package:iut_eats/widgets/small_text.dart';
@@ -24,6 +27,7 @@ class _MainFoodPageState extends State<MainFoodPage> {
   }
   @override
   Widget build(BuildContext context) {
+    TextEditingController searchController = TextEditingController();
     return RefreshIndicator(
         child: Column(
       children: [
@@ -48,16 +52,8 @@ class _MainFoodPageState extends State<MainFoodPage> {
                   ],
                 ),
                 Center(
-                  child: Container(
-                    width: Dimensions.height45,
-                    height: Dimensions.height45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Dimensions.radius15),
-                      color: AppColors.mainColor,
-                    ),
-                    child: Icon(Icons.search, color: Colors.white,size: Dimensions.iconSize24),
+                  child: AppSearchContainer(onSearch: _performSearch, searchController: searchController)
                   ),
-                ),
               ],
             ),
           ),
@@ -70,4 +66,13 @@ class _MainFoodPageState extends State<MainFoodPage> {
     ),
         onRefresh: _loadResource);
   }
+}
+
+void _performSearch(String searchTerm) {
+
+  //option 1 : search from the already loaded arrays, save previous value in arrays and replace them with only matching items, if user goes back reload previously saved values in array
+
+  //option 2 : get only matching items from database into arrays, if user goes back reload all items from database back into array
+  print("yolo???");
+  Get.toNamed(RouteHelper.getSearchResult());
 }

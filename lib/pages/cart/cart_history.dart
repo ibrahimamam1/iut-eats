@@ -65,6 +65,17 @@ class CartHistory extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                GestureDetector(
+                  onTap: (){
+                    Get.back();
+                  },
+                  child: AppIcon(
+                    icon: Icons.arrow_back_ios,
+                    iconColor: Colors.white,
+                    backgroundColor: AppColors.mainColor,
+                    iconSize: Dimensions.iconSize24,
+                  ),
+                ),
                 BigText(text: "cart History" , color: Colors.white),
                 const AppIcon(icon: Icons.shopping_cart_outlined,
                     iconColor:AppColors.mainColor),

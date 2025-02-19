@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iut_eats/base/no_data_page.dart';
+import 'package:iut_eats/controllers/auth_controller.dart';
 import 'package:iut_eats/controllers/cart_controller.dart';
 import 'package:iut_eats/controllers/popular_product_controller.dart';
 import 'package:iut_eats/controllers/recommended_controller.dart';
@@ -47,11 +48,16 @@ class Cartpage extends StatelessWidget{
                         iconSize: Dimensions.iconSize24,
                       ),
                     ),
-                    AppIcon(
-                      icon: Icons.shopping_cart_outlined,
-                      iconColor: Colors.white,
-                      backgroundColor: AppColors.mainColor,
-                      iconSize: Dimensions.iconSize24,
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(RouteHelper.getCartHistoryPage());
+                      },
+                      child: AppIcon(
+                        icon: Icons.history_outlined,
+                        iconColor: Colors.white,
+                        backgroundColor: AppColors.mainColor,
+                        iconSize: Dimensions.iconSize24,
+                      ),
                     )
                   ],
                 )
@@ -193,9 +199,13 @@ class Cartpage extends StatelessWidget{
               ),
               GestureDetector(
                 onTap: (){
-                  //popularProduct.addItem(product);
-                  cartController.addToHistory();
-                  Get.snackbar("Order Success", "Your Order is being Processed");
+                  if(Get.find<AuthController>().userLoggedIn()){
+                    cartController.addToHistory();
+                    Get.snackbar("Order Success", "Your Order is being Processed");
+                  }else{
+                      Get.toNamed(RouteHelper.getSignInPage());
+                  }
+
                 },
                 child: Container(
                   padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),

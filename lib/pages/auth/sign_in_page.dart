@@ -22,7 +22,6 @@ class SignInPage extends StatelessWidget {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
     void _login(AuthController authController){
-      // var authController = Get.find<AuthController>();
 
       String email = emailController.text.trim();
       String password = passwordController.text.trim();
@@ -36,12 +35,15 @@ class SignInPage extends StatelessWidget {
       }else if(password.length<6){
         showCustomSnackBar("Password can not be less than six characters", title: "Password");
       }else{
-
+        print("going to try loging in");
         authController.login(email, password).then((status){
+          print("finished loging in");
           if(status.isSuccess){
+            print("Status sucess");
             // Get.toNamed(RouteHelper.getInitial());
             Get.toNamed(RouteHelper.getCartPage());
           }else{
+            print("Status not sucess");
             showCustomSnackBar(status.message);
           }
         });

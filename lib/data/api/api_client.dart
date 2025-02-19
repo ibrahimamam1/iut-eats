@@ -26,9 +26,13 @@ class ApiClient extends GetConnect implements GetxService{
 
   Future<Response> getData(String url) async{
     try{
+
+
       Response response = await get(url);
+      print('Response status: ${response.statusCode}');
       return response;
     }catch(e){
+      print("Could not get response dude");
       return Response(statusCode: 1, statusText: e.toString());
     }
   }
@@ -37,7 +41,6 @@ class ApiClient extends GetConnect implements GetxService{
     print(body.toString());
     try{
       Response response = await post(uri, body, headers: _mainHeaders);
-      print(response.toString());
       return response;
     }catch(e){
       print(e.toString());

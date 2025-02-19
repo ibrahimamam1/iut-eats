@@ -8,6 +8,7 @@ import 'package:iut_eats/pages/home/main_food_page.dart';
 
 
 import '../../utils/colors.dart';
+import '../cart/cart_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,8 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   List pages=[
     MainFoodPage(),
-    SignInPage(),
-    CartHistory(),
+    Cartpage(),
     AccountPage(),
   ];
   void onTapNav(int index){

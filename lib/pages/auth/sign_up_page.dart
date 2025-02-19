@@ -46,7 +46,7 @@ class SignUpPage extends StatelessWidget {
       }else if(password.length<6){
         showCustomSnackBar("Password can not be less than six characters", title: "Password");
       }else{
-        showCustomSnackBar("All went well", title: "Perfect");
+        //showCustomSnackBar("All went well", title: "Perfect");
         SignupBody signupBody = SignupBody(name: name,
             phone: phone,
             email: email,

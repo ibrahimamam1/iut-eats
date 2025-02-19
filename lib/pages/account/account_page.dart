@@ -1,10 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:iut_eats/controllers/auth_controller.dart';
+import 'package:iut_eats/routes/route_helper.dart';
 import 'package:iut_eats/utils/colors.dart';
 import 'package:iut_eats/utils/dimensions.dart';
 import 'package:iut_eats/widgets/account_widget.dart';
 import 'package:iut_eats/widgets/app_icon.dart';
 import 'package:iut_eats/widgets/big_text.dart';
+
+import '../../controllers/cart_controller.dart';
 
 class AccountPage extends StatelessWidget {
   AccountPage({Key? key}) : super(key: key);
@@ -85,17 +91,29 @@ class AccountPage extends StatelessWidget {
                           iconColor: Colors.white,
                           iconSize: Dimensions.height10*5/2,
                           size: Dimensions.height10*5,),
-                        bigText: BigText(text: "Message")
+                        bigText: BigText(text: "Messages")
                     ),
                     SizedBox(height: Dimensions.height20,),
-                    //message
-                    AccountWidget(
-                        appIcon:AppIcon(icon: Icons.message_outlined,
-                          backgroundColor: Colors.redAccent,
-                          iconColor: Colors.white,
-                          iconSize: Dimensions.height10*5/2,
-                          size: Dimensions.height10*5,),
-                        bigText: BigText(text: "Message")
+                    //logout
+                    GestureDetector(
+                      onTap: (){
+                        if(Get.find<AuthController>().userLoggedIn()){
+                          Get.find<AuthController>().clearSharedData();
+                          Get.find<CartController>().clear();
+                          Get.find<CartController>().clearCartHistory();
+                          Get.offNamed(RouteHelper.getSplashPage());
+
+                        }
+
+                      },
+                      child: AccountWidget(
+                          appIcon:AppIcon(icon: Icons.logout,
+                            backgroundColor: Colors.redAccent,
+                            iconColor: Colors.white,
+                            iconSize: Dimensions.height10*5/2,
+                            size: Dimensions.height10*5,),
+                          bigText: BigText(text: "Logout")
+                      ),
                     ),
                     SizedBox(height: Dimensions.height20,),
                   ],
