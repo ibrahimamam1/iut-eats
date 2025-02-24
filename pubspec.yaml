@@ -1,0 +1,59 @@
+name: iut_eats
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.5
+  dots_indicator: ^2.0.0
+  shared_preferences: ^2.0.11
+  intl: ^0.19.0
+  google_maps_flutter_web: ^0.5.4+5
+  google_maps_flutter: ^2.1.2
+  geocoding: ^2.0.4
+  geolocator: ^8.2.0
+  iconsax: ^0.0.8
+
+
+
+
+  cupertino_icons: ^1.0.6
+  webview_flutter: ^4.10.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^3.0.0
+
+
+flutter:
+  assets:
+    - assets/image/
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/font/Roboto-Regular.ttf
+          weight: 400
+        - asset: assets/font/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/font/Roboto-Bold.ttf
+          weight: 700
+        - asset: assets/font/Roboto-Black.ttf
+          weight: 900
+
+
+
+  uses-material-design: true
+
+
