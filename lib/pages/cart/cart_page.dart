@@ -203,15 +203,17 @@ class Cartpage extends StatelessWidget{
                   if(Get.find<AuthController>().userLoggedIn()){
                     print("logged in?");
                     cartController.addToHistory();
+                    Get.toNamed(RouteHelper.getCheckoutPage());
                     // Get.snackbar("Order Success", "Your Order is being Processed");
-                     if(Get.find<LocationController>().addressList.isEmpty){
+                     /*if(Get.find<LocationController>().addressList.isEmpty){
                        Get.toNamed(RouteHelper.getAddressPage());
                      }else{
                        Get.offNamed(RouteHelper.getInitial());
-                     }
+                     }*/
                   }else{
                       Get.toNamed(RouteHelper.getSignInPage());
                   }
+
 
                 },
                 child: Container(

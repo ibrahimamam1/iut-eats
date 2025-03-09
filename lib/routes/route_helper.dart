@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:iut_eats/base/success_page.dart';
 import 'package:iut_eats/pages/cart/cart_history.dart';
 import 'package:iut_eats/pages/cart/cart_page.dart';
+import 'package:iut_eats/pages/checkout/checkout_page.dart';
 import 'package:iut_eats/pages/food/popular_food_detail.dart';
 import 'package:iut_eats/pages/food/recomended_food_detail.dart';
 import 'package:iut_eats/pages/home/food_search_result.dart';
@@ -21,6 +22,7 @@ class RouteHelper{
   static const String cartPage = "/cart-page";
   static const String signIn = "/sign-in";
   static const String cartHisotryPage = "/cart-history";
+  static const String checkoutPage = "/checkout";
   static const String successPage = "/success-page";
   static const String addAddress="/add-address";
   static const String pickAddressMap="/pick-address";
@@ -33,6 +35,7 @@ class RouteHelper{
   static String getCartPage()=>cartPage;
   static String getSignInPage() => '$signIn';
   static String getCartHistoryPage()=>cartHisotryPage;
+  static String getCheckoutPage()=>checkoutPage;
   static String getSuccessPage()=>successPage;
   static String getAddressPage()=>'$addAddress';
   static String getPickAddressPage()=>'$pickAddressMap';
@@ -74,6 +77,11 @@ class RouteHelper{
     ),
     GetPage(name: cartHisotryPage, page: (){
       return const CartHistory();
+    },
+        transition: Transition.fadeIn
+    ),
+    GetPage(name: checkoutPage, page: (){
+      return const CheckoutPage(address: 'Islamic University of technology' , totalPrice: 10);
     },
         transition: Transition.fadeIn
     ),
