@@ -24,22 +24,25 @@ class _PickAddressMapState extends State<PickAddressMap> {
   late GoogleMapController _mapController;
   late CameraPosition _cameraPosition;
 
-  void initState(){
+  void initState() {
     super.initState();
-    if(Get.find<LocationController>().addressList.isEmpty){
-      _initialPosition = const LatLng(45.521563, -122.677433);
+    print("Address list empty? ${Get.find<LocationController>().addressList.isEmpty}");
+    if (Get.find<LocationController>().addressList.isEmpty) {
+      _initialPosition = const LatLng(23.9482, 90.3778);
       _cameraPosition = CameraPosition(target: _initialPosition, zoom: 17);
+      print("Set initial position to IUT: $_initialPosition");
     } else {
-      if(Get.find<LocationController>().addressList.isNotEmpty){
+      if (Get.find<LocationController>().addressList.isNotEmpty) {
         var latitude = Get.find<LocationController>().getAddress["Latitude"];
         var longitude = Get.find<LocationController>().getAddress["longitude"];
+        print("Address data: Latitude=$latitude, Longitude=$longitude");
 
-        // Check if latitude and longitude are not null, and provide default values if they are.
         _initialPosition = LatLng(
-          latitude != null ? double.parse(latitude) : 45.521563, // Default latitude
-          longitude != null ? double.parse(longitude) : -122.677433, // Default longitude
+          latitude != null ? double.parse(latitude) : 23.9482,
+          longitude != null ? double.parse(longitude) : 90.3778,
         );
         _cameraPosition = CameraPosition(target: _initialPosition, zoom: 17);
+        print("Set initial position from address: $_initialPosition");
       }
     }
   }
