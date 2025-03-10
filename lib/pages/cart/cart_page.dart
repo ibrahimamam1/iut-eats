@@ -202,7 +202,6 @@ class Cartpage extends StatelessWidget{
                 onTap: (){
                   if(Get.find<AuthController>().userLoggedIn()){
                     print("logged in?");
-                    cartController.addToHistory();
                     Get.toNamed(RouteHelper.getCheckoutPage());
                     // Get.snackbar("Order Success", "Your Order is being Processed");
                      /*if(Get.find<LocationController>().addressList.isEmpty){

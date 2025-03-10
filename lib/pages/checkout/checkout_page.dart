@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iut_eats/controllers/cart_controller.dart';
+import 'package:iut_eats/data/repository/cart_repo.dart';
 import 'package:iut_eats/widgets/big_text.dart';
+import '../../controllers/checkout_controller.dart';
+import '../../routes/route_helper.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimensions.dart';
+import '../address/pick_address_map.dart';
 
-class CheckoutPage extends StatefulWidget {
-  final String address;
-  final double totalPrice;
-
-  const CheckoutPage({required this.address, required this.totalPrice, super.key});
-
-  @override
-  _CheckoutPageState createState() => _CheckoutPageState();
-}
-
-class _CheckoutPageState extends State<CheckoutPage> {
-  String selectedPayment = 'cash_on_delivery';
+class CheckoutPage extends StatelessWidget {
+  final CheckoutController controller = Get.put(CheckoutController());
+  final CartController cartController = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Checkout'),
-        backgroundColor: AppColors.mainColor,
-        elevation: 0,
-      ),
       body: Padding(
         padding: EdgeInsets.all(Dimensions.width20),
         child: Column(
@@ -33,7 +24,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
             // Address Field
             GestureDetector(
               onTap: () {
-                Get.toNamed('/address-selection'); // Navigate to address selection page
+                Get.toNamed(RouteHelper.getPickAddressPage(),
+                    arguments: PickAddressMap(
+                    fromSignup: false,
+                    fromAddress: false,
+                    fromCheckout: true,
+                )); // Navigate to address selection
               },
               child: Container(
                 padding: EdgeInsets.all(Dimensions.width20),
@@ -53,15 +49,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       ),
                     ),
                     Expanded(
-                      child: Text(
-                        widget.address.isEmpty ? 'Select Address' : widget.address,
+                      child: Obx(() => Text(
+                        controller.address.isEmpty
+                            ? 'Select Address'
+                            : controller.address.value,
                         style: TextStyle(
                           fontSize: Dimensions.font16,
                           color: AppColors.mainBlackColor,
                         ),
                         textAlign: TextAlign.end,
                         overflow: TextOverflow.ellipsis,
-                      ),
+                      )),
                     ),
                     Icon(
                       Icons.arrow_forward_ios,
@@ -88,14 +86,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       color: AppColors.titleColor,
                     ),
                   ),
-                  Text(
-                    '\$${widget.totalPrice.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: Dimensions.font20,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.mainColor,
-                    ),
-                  ),
+
+                  BigText(text: cartController.totalAmount.toString()),
+
                 ],
               ),
             ),
@@ -110,34 +103,32 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 borderRadius: BorderRadius.circular(Dimensions.radius15),
                 color: Colors.white,
               ),
-              child: Column(
+              child: Obx(() => Column(
                 children: [
                   RadioListTile<String>(
                     title: const Text('Cash on Delivery'),
                     value: 'cash_on_delivery',
-                    groupValue: selectedPayment,
+                    groupValue: controller.selectedPayment.value,
                     onChanged: (value) {
-                      setState(() {
-                        selectedPayment = value!;
-                      });
+                      controller.selectedPayment.value = value!;
                     },
                     activeColor: AppColors.mainColor,
-                    contentPadding: EdgeInsets.symmetric(horizontal: Dimensions.width15),
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: Dimensions.width15),
                   ),
                   RadioListTile<String>(
                     title: const Text('Bkash'),
                     value: 'bkash',
-                    groupValue: selectedPayment,
+                    groupValue: controller.selectedPayment.value,
                     onChanged: (value) {
-                      setState(() {
-                        selectedPayment = value!;
-                      });
+                      controller.selectedPayment.value = value!;
                     },
                     activeColor: AppColors.mainColor,
-                    contentPadding: EdgeInsets.symmetric(horizontal: Dimensions.width15),
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: Dimensions.width15),
                   ),
                 ],
-              ),
+              )),
             ),
             SizedBox(height: Dimensions.height30),
 
@@ -145,8 +136,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // Add your checkout logic here (e.g., process the order)
-                  print('Selected Payment: $selectedPayment');
+                  print('Selected Payment: ${controller.selectedPayment.value}');
+                  cartController.addToHistory();
+                  // Add checkout logic here
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.mainColor,

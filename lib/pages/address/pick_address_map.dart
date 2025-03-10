@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
+import 'package:iut_eats/controllers/checkout_controller.dart';
 import 'package:iut_eats/controllers/location_controller.dart';
 import 'package:iut_eats/utils/colors.dart';
 
@@ -12,8 +13,9 @@ import '../../utils/dimensions.dart';
 class PickAddressMap extends StatefulWidget {
   final bool fromSignup;
   final bool fromAddress;
+  final bool fromCheckout;
   final GoogleMapController? googleMapController;
-  const PickAddressMap({super.key, required this.fromSignup, required this.fromAddress,this.googleMapController});
+  const PickAddressMap({super.key, required this.fromSignup, required this.fromAddress, required this.fromCheckout,this.googleMapController});
 
   @override
   State<PickAddressMap> createState() => _PickAddressMapState();
@@ -151,10 +153,30 @@ class _PickAddressMapState extends State<PickAddressMap> {
                               );
                               locationController.setAddressData();
                             }
+                            locationController.setAddressData();
                             Get.back();
                             //if update problem
-                            //Get.toNamed(RouteHelper.getAddressPage());
+                            //Get.toNamed(RouteHelper.getCheckoutPage());
+                          }else if(widget.fromCheckout){
+                            print("map from checkout");
+                            if (widget.googleMapController != null) {
+                              widget.googleMapController!.moveCamera(
+                                CameraUpdate.newCameraPosition(
+                                  CameraPosition(
+                                    target: LatLng(
+                                      locationController.pickPosition.latitude,
+                                      locationController.pickPosition.longitude,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            locationController.setAddressData();
+                            CheckoutController checkoutController = Get.find<CheckoutController>();
+                            checkoutController.updateAddress();
+                            Get.back();
                           }
+
                         }
                       },
                     )

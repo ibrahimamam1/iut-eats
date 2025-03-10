@@ -40,9 +40,9 @@ class LocationController extends GetxController implements GetxService{
 /*for service zone*/
    bool _isLoading = false;
    bool get isLoading => _isLoading;
-   bool _inZone = false; // check if in service zone
+   bool _inZone = true; // check if in service zone
    bool get inZone => _inZone;
-   bool _buttonDisabled = true;
+   bool _buttonDisabled = false;
    bool get buttonDisabled => _buttonDisabled;
    void setMapController(GoogleMapController mapController){
       _mapController=mapController;
@@ -187,6 +187,7 @@ class LocationController extends GetxController implements GetxService{
       _position=_pickPosition;
       _placemark=_pickPlacemark;
       _updateAddressData=false;
+      print("location controller: set address data: new address: " + _placemark.name!);
       update();
    }
    Future<ResponseModel>getZone(String lat, String lng, bool markerLoad)async{
@@ -214,7 +215,7 @@ class LocationController extends GetxController implements GetxService{
          _inZone=true;
          _responseModel = ResponseModel(true, response.body["zone_id"].toString());
       }else{
-         _inZone = false;
+         _inZone = true;
          _responseModel = ResponseModel(true, response.statusText!);
       }
       if(markerLoad){

@@ -42,7 +42,7 @@ class RouteHelper{
   static List<GetPage> routes = [
     GetPage(name: pickAddressMap, page: () {
       var args = Get.arguments as PickAddressMap?;
-      return args ?? const PickAddressMap(fromSignup: false, fromAddress: false);
+      return args ?? const PickAddressMap(fromSignup: false, fromAddress: false, fromCheckout: false,);
     }),
 
 
@@ -81,7 +81,7 @@ class RouteHelper{
         transition: Transition.fadeIn
     ),
     GetPage(name: checkoutPage, page: (){
-      return const CheckoutPage(address: 'Islamic University of technology' , totalPrice: 10);
+      return CheckoutPage();
     },
         transition: Transition.fadeIn
     ),

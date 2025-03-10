@@ -122,7 +122,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                             arguments: PickAddressMap(
                               fromSignup: false,
                               fromAddress: true,
-
+                              fromCheckout: false,
                             )
                             );
                         },
