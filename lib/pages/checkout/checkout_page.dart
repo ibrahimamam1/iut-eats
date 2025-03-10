@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iut_eats/controllers/cart_controller.dart';
+import 'package:iut_eats/controllers/user_controller.dart';
 import 'package:iut_eats/data/repository/cart_repo.dart';
 import 'package:iut_eats/widgets/big_text.dart';
 import '../../controllers/checkout_controller.dart';
@@ -12,6 +13,7 @@ import '../address/pick_address_map.dart';
 class CheckoutPage extends StatelessWidget {
   final CheckoutController controller = Get.put(CheckoutController());
   final CartController cartController = Get.find<CartController>();
+  final UserController userController = Get.find<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +74,41 @@ class CheckoutPage extends StatelessWidget {
             ),
             SizedBox(height: Dimensions.height20),
 
+            // Phone Number Field
+            Container(
+              padding: EdgeInsets.all(Dimensions.width15),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.mainColor),
+                borderRadius: BorderRadius.circular(Dimensions.radius15),
+                color: Colors.white,
+              ),
+              child: TextField(
+                controller: TextEditingController(text: userController.userModel?.phone),
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  labelText: 'Phone Number',
+                  labelStyle: TextStyle(
+                    color: AppColors.titleColor,
+                    fontSize: Dimensions.font16,
+                  ),
+                  border: InputBorder.none,
+                  prefixIcon: Icon(
+                    Icons.phone,
+                    color: AppColors.iconColor1,
+                    size: Dimensions.iconSize24,
+                  ),
+                ),
+                style: TextStyle(
+                  fontSize: Dimensions.font16,
+                  color: AppColors.mainBlackColor,
+                ),
+                onChanged: (value) {
+                  // You can add logic here to save the phone number if needed
+                  // For example: controller.phoneNumber.value = value;
+                },
+              ),
+            ),
+            SizedBox(height: Dimensions.height20),
             // Total Price Display
             Container(
               padding: EdgeInsets.symmetric(vertical: Dimensions.height10),
@@ -136,9 +173,15 @@ class CheckoutPage extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  print('Selected Payment: ${controller.selectedPayment.value}');
-                  cartController.addToHistory();
-                  // Add checkout logic here
+                  if(controller.selectedPayment.value == 'cash_on_delivery'){
+                    print('Cash on delivery');
+                    cartController.addToHistory();
+                    Get.toNamed(RouteHelper.getSuccessPage());
+                  }
+                  else{
+                    print('bkash');
+                    Get.toNamed(RouteHelper.getBkashPaymentPage());
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.mainColor,

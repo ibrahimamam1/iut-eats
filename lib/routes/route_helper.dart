@@ -6,6 +6,7 @@ import 'package:iut_eats/pages/checkout/checkout_page.dart';
 import 'package:iut_eats/pages/food/popular_food_detail.dart';
 import 'package:iut_eats/pages/food/recomended_food_detail.dart';
 import 'package:iut_eats/pages/home/food_search_result.dart';
+import 'package:iut_eats/pages/payment/bkash_payment.dart';
 import 'package:iut_eats/pages/splash/splash_page.dart';
 
 import '../pages/address/add_address_page.dart';
@@ -26,6 +27,7 @@ class RouteHelper{
   static const String successPage = "/success-page";
   static const String addAddress="/add-address";
   static const String pickAddressMap="/pick-address";
+  static const String bkashPaymentPage="/bkash";
 
   static String getSplashPage()=>splashPage;
   static String getInitial() => initial;
@@ -39,6 +41,7 @@ class RouteHelper{
   static String getSuccessPage()=>successPage;
   static String getAddressPage()=>'$addAddress';
   static String getPickAddressPage()=>'$pickAddressMap';
+  static String getBkashPaymentPage()=>'$bkashPaymentPage';
   static List<GetPage> routes = [
     GetPage(name: pickAddressMap, page: () {
       var args = Get.arguments as PickAddressMap?;
@@ -87,6 +90,9 @@ class RouteHelper{
     ),
     GetPage(name: successPage, page: (){
       return const SuccessPage();
+    }),
+    GetPage(name: bkashPaymentPage, page: (){
+      return const BkashPaymentPage();
     }),
     GetPage(name: addAddress, page:(){
       return const AddAddressPage();
