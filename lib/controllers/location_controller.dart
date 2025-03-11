@@ -9,6 +9,7 @@ import 'package:iut_eats/data/api/api_checker.dart';
 import 'package:iut_eats/data/repository/location_repo.dart';
 
 import '../models/address_model.dart';
+import '../models/prediction_model.dart';
 import '../models/response_model.dart';
 import 'package:google_maps_webservice/src/places.dart';
 
@@ -94,6 +95,8 @@ class LocationController extends GetxController implements GetxService{
                fromAddress?_placemark=Placemark(name:_address):
                    _pickPlacemark=Placemark(name:_address);
 
+            }else{
+               _changeAddress = true;
             }
          } catch (e) {
             print(e);
@@ -233,18 +236,78 @@ class LocationController extends GetxController implements GetxService{
       return _responseModel;
    }
 
-   List<Prediction> _predictionList = [];
-   Future<List<Prediction>>searchLocation(BuildContext context, String text) async {
-     if(text.isNotEmpty){
-        Response response = await locationRepo.searchLocation(text);
-        if(response.statusCode==200 && response.body['status'] == 'OK'){
+   List<NewPrediction> _predictionList = [];
+
+   Future<List<NewPrediction>> searchLocation(BuildContext context, String text) async {
+      if (text.isNotEmpty) {
+         Response response = await locationRepo.searchLocation(text);
+         print(response.body.toString());
+         if (response.statusCode == 200) {
             _predictionList = [];
-            response.body['predictions'].forEach((prediction)
-            =>_predictionList.add(Prediction.fromJson(prediction)));
-        }else{
+            final suggestions = response.body['suggestions'] as List<dynamic>;
+            suggestions.forEach((suggestion) {
+               _predictionList.add(NewPrediction.fromJson(suggestion));
+            });
+         } else {
             ApiChecker.checkApi(response);
-        }
-     }
-     return _predictionList;
+         }
+      }
+      return _predictionList;
+   }
+
+   setLocation(String placeID, String address, GoogleMapController mapController) async {
+      // Set loading state to true and update UI
+      _loading = true;
+      update();
+
+      print("setting location for: " + address);
+
+      // Fetch place details from the repository
+      Response response = await locationRepo.setLocation(placeID);
+      print('got details response');
+      print(response.body.toString());
+
+      // Since response.body is a Map<String, dynamic> with GetX, access location fields
+      Map<String, dynamic> placeDetails = response.body;
+
+      // Check if location data exists to avoid errors
+      if (placeDetails.containsKey('location')) {
+         double latitude = placeDetails['location']['latitude'];
+         double longitude = placeDetails['location']['longitude'];
+
+         // Update the position with the new coordinates
+         _pickPosition = Position(
+            latitude: latitude,
+            longitude: longitude,
+            timestamp: DateTime.now(),
+            accuracy: 1,
+            altitude: 1,
+            heading: 1,
+            speed: 1,
+            speedAccuracy: 1,
+            altitudeAccuracy: 1,
+            headingAccuracy: 1,
+         );
+
+         // Set the placemark using the provided address (from autocomplete)
+         _pickPlacemark = Placemark(name: address);
+
+         // Reset address change flag
+         _changeAddress = false;
+
+         // Move the map camera to the new location if controller is available
+         if (!mapController.isNull) {
+            mapController.animateCamera(CameraUpdate.newCameraPosition(
+               CameraPosition(target: LatLng(latitude, longitude), zoom: 17),
+            ));
+         }
+      } else {
+         print('Location data not found in response');
+         // Optionally, add error handling (e.g., show a snackbar to the user)
+      }
+
+      // Reset loading state and update UI
+      _loading = false;
+      update();
    }
 }
