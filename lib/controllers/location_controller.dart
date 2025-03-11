@@ -1,13 +1,16 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:iut_eats/data/api/api_checker.dart';
 import 'package:iut_eats/data/repository/location_repo.dart';
 
 import '../models/address_model.dart';
 import '../models/response_model.dart';
+import 'package:google_maps_webservice/src/places.dart';
 
 class LocationController extends GetxController implements GetxService{
    LocationRepo locationRepo;
@@ -228,5 +231,20 @@ class LocationController extends GetxController implements GetxService{
       print(response.statusCode); //200 , 404, 500, 403
       update();
       return _responseModel;
+   }
+
+   List<Prediction> _predictionList = [];
+   Future<List<Prediction>>searchLocation(BuildContext context, String text) async {
+     if(text.isNotEmpty){
+        Response response = await locationRepo.searchLocation(text);
+        if(response.statusCode==200 && response.body['status'] == 'OK'){
+            _predictionList = [];
+            response.body['predictions'].forEach((prediction)
+            =>_predictionList.add(Prediction.fromJson(prediction)));
+        }else{
+            ApiChecker.checkApi(response);
+        }
+     }
+     return _predictionList;
    }
 }
