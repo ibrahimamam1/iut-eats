@@ -20,7 +20,7 @@ class CartRepo{
     var time = DateTime.now().toString();
       cart = [];
 
-      //convert Cart Objects to string because saharedPreferences Only accepts strings
+      //convert Cart Objects to string because sharedPreferences Only accepts strings
       for (var element in cartList) {
         element.time = time;
         continue;
@@ -59,14 +59,22 @@ class CartRepo{
 
   void addToCartHistoryList(){
     if(sharedPreferences.containsKey(AppConstants.CART_HISTORY_LIST)){
+      print("shared preferences contains key");
       cartHistory = sharedPreferences.getStringList(AppConstants.CART_HISTORY_LIST)!;
+    } else {
+      print("shared preferences does not contains key");
+      cartHistory = [];
     }
-    for(int i=0; i<cart.length; i++){
+    print("there are ${cart.length} items in cart");
+    for (int i = 0; i < cart.length; i++){
       cartHistory.add(cart[i]);
     }
+    print("clearing cart");
     removeCart();
+    print("saving ${cartHistory.length} elements to shared preferences");
     sharedPreferences.setStringList(AppConstants.CART_HISTORY_LIST, cartHistory);
   }
+
 
   void removeCart(){
     cart=[];

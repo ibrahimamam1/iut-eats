@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iut_eats/controllers/location_controller.dart';
 import 'package:iut_eats/utils/dimensions.dart';
 
-import 'package:google_maps_webservice/src/places.dart';
+import '../../../models/prediction_model.dart';
+
 
 class LocationDialogue extends StatelessWidget {
   final GoogleMapController mapController;
@@ -15,19 +15,20 @@ class LocationDialogue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controller = TextEditingController();
     return Container(
       padding: EdgeInsets.all(Dimensions.width10),
       alignment: Alignment.topCenter,
       child: Material(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(Dimensions.radius20/2),
+          borderRadius: BorderRadius.circular(Dimensions.radius20 / 2),
         ),
         child: SizedBox(
           width: Dimensions.screenWidth,
-          child: TypeAheadField(
-              textFieldConfiguration: TextFieldConfiguration(
-                controller: _controller,
+          child: TypeAheadField<NewPrediction>(
+            builder: (context, controller, focusNode) {
+              return TextField(
+                controller: controller,
+                focusNode: focusNode,
                 textInputAction: TextInputAction.search,
                 autofocus: true,
                 textCapitalization: TextCapitalization.words,
@@ -36,27 +37,50 @@ class LocationDialogue extends StatelessWidget {
                   hintText: "search location",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(
-                      style: BorderStyle.none, width: 0
-                    )
-                  )
-                )
-              ),
-              suggestionsCallback: (String pattern) async {
-                return await Get.find<LocationController>().searchLocation(context, pattern);
-              },
-              onSuggestionSelected: (sugestion){ },
-              itemBuilder: (context, Prediction suggestion){
-                return Row(
+                    borderSide: const BorderSide(
+                      style: BorderStyle.none,
+                      width: 0,
+                    ),
+                  ),
+                  hintStyle: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: Theme.of(context).disabledColor,
+                    fontSize: Dimensions.font16,
+                  ),
+                ),
+              );
+            },
+            suggestionsCallback: (pattern) async {
+              return await Get.find<LocationController>().searchLocation(context, pattern);
+            },
+            onSelected: (NewPrediction suggestion) {
+              Get.find<LocationController>().setLocation(
+                suggestion.placeId,
+                suggestion.description,
+                mapController,
+              );
+              Get.back();
+            },
+            itemBuilder: (context, NewPrediction suggestion) {
+              return Padding(
+                padding: EdgeInsets.all(Dimensions.width10),
+                child: Row(
                   children: [
-                    Icon(Icons.location_on),
+                    const Icon(Icons.location_on),
                     Expanded(
-                        child: Text(suggestion.description!)
-                    )
-                  ]
-                  
-                );
-              },
+                      child: Text(
+                        suggestion.description,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                          fontSize: Dimensions.font16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),
