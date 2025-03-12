@@ -130,7 +130,9 @@ class CartController extends GetxController{
     }
 
     void addToHistory(){
+    print('cart controller adding to history');
       cartRepo.addToCartHistoryList();
+      print("cart controller added to history. clearing now");
       clear();
     }
 

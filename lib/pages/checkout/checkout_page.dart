@@ -182,8 +182,11 @@ class CheckoutPage extends StatelessWidget {
                     OrderController order = Get.find<OrderController>();
                     LocationController location = Get.find<LocationController>();
 
-                    List<String> names = cartController.getItems.map((item) => item.name!).toList();
-                    String items = jsonEncode(names);
+                    List<Map<String, dynamic>> itemsJson = cartController.getItems.map((item) => {
+                      'name': item.name,
+                      'quantity': item.quantity,
+                    }).toList();
+                    String items = jsonEncode(itemsJson);
                     print("Placing order: " + items);
                     Future<bool> success = order.placeOrder('Muntasir', '01894781982', location.placemark.name!, cartController.totalAmount, items);
                     if(await success){
