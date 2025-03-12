@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iut_eats/controllers/cart_controller.dart';
+import 'package:iut_eats/controllers/location_controller.dart';
+import 'package:iut_eats/controllers/order_controller.dart';
 import 'package:iut_eats/controllers/user_controller.dart';
 import 'package:iut_eats/data/repository/cart_repo.dart';
+import 'package:iut_eats/models/user_model.dart';
 import 'package:iut_eats/widgets/big_text.dart';
 import '../../controllers/checkout_controller.dart';
 import '../../routes/route_helper.dart';
@@ -172,11 +177,20 @@ class CheckoutPage extends StatelessWidget {
             // Checkout Button
             Center(
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if(controller.selectedPayment.value == 'cash_on_delivery'){
-                    print('Cash on delivery');
-                    cartController.addToHistory();
-                    Get.toNamed(RouteHelper.getSuccessPage());
+                    OrderController order = Get.find<OrderController>();
+                    LocationController location = Get.find<LocationController>();
+
+                    List<String> names = cartController.getItems.map((item) => item.name!).toList();
+                    String items = jsonEncode(names);
+                    print("Placing order: " + items);
+                    Future<bool> success = order.placeOrder('Muntasir', '01894781982', location.placemark.name!, cartController.totalAmount, items);
+                    if(await success){
+                      cartController.addToHistory();
+                      Get.toNamed(RouteHelper.getSuccessPage());
+                    }
+
                   }
                   else{
                     print('bkash');

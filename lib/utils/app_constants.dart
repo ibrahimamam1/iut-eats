@@ -9,6 +9,8 @@ class AppConstants{
   static const String SEARCH_PRODUCT_URI="/api/v1/products/search?query=";
   // static const String DRINKS_URI="/api/v1/products/drinks";
   static const String UPLOAD_URL = "/uploads/";
+  static const String ORDER_URI = "/api/v1/customer/order/user_order";
+
 
   //user auth and points
   static const String REGISTRATION_URI="/api/v1/auth/register";
