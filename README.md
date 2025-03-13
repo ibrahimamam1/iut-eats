@@ -1,16 +1,16 @@
 # iut_eats
 
-A new Flutter project.
+A food delivery app written in dart.
 
-## Getting Started
+## Dependencies
+  flutter sdk version 3.24.0  
 
-This project is a starting point for a Flutter application.
+## How to run
+  ```bash
+  git clone https://github.com/ibrahimamam1/iut-eats
+  cd iut-eats
+  flutter run -d chrome --web-renderer html
+```
+## Note
+Flutter must be included in you PATH
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
